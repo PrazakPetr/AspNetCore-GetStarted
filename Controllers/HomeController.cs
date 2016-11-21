@@ -24,8 +24,7 @@ namespace GetStarted.Controllers
         {
             var model = new HomePageModel
             {
-                Restaurants = this.restaurantRepo.GetAll(),
-                CurrentGreeting = this.greeter.GetGreeting()
+                Restaurants = this.restaurantRepo.GetAll()
             };
 
             return base.View(model);

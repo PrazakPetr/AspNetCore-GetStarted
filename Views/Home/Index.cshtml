@@ -5,31 +5,11 @@
 }
 
 <h1>Welcome</h1>
-<table cellpadding="10" border="1">
-    <thead>
-        <tr>
-            <td>Name</td>
-            <td>Actions</td>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.Restaurants)
-            {
-            <tr>
-                <td>@item.Name</td>
-                <td>
-                @*@Html.ActionLink(item.Id.ToString(), "Detail", new { item.Id })*@
-                    <a asp-action="Detail" asp-route-id="@item.Id">Detail</a>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
-
-<a asp-controller="Home" asp-action="Create">Create</a>
-
-@section footer {
-<div>@Model.CurrentGreeting</div>
+@foreach (var item in Model.Restaurants)
+{
+    @Html.Partial("_Summary", item)
 }
+<div>
+    <a asp-controller="Home" asp-action="Create">Create</a>
+</div>
 

@@ -9,7 +9,5 @@ namespace GetStarted.Models
     public class HomePageModel
     {
         public IEnumerable<Restaurant> Restaurants { get; set; }
-
-        public string CurrentGreeting { get; set; }
     }
 }
