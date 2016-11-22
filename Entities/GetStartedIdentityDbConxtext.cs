@@ -7,14 +7,12 @@ using System.Threading.Tasks;
 
 namespace GetStarted.Entities
 {
-    public class GetStartedDbContext : IdentityDbContext<User>
+    public class GetStartedIdentityDbConxtext : IdentityDbContext<User>
     {
-        public GetStartedDbContext(DbContextOptions<GetStartedDbContext> options)
+        public GetStartedIdentityDbConxtext(DbContextOptions<GetStartedIdentityDbConxtext> options)
             :base(options)
         {
 
         }
-
-        public DbSet<Restaurant> Restaurants { get; set; }
     }
 }

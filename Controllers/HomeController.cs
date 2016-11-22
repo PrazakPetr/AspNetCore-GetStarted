@@ -1,6 +1,7 @@
 ﻿using GetStarted.Entities;
 using GetStarted.Models;
 using GetStarted.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace GetStarted.Controllers
 {
+    [Authorize()]
     public class HomeController : Controller
     {
         private IGreetingService greeter;
@@ -20,6 +22,7 @@ namespace GetStarted.Controllers
             this.greeter = greeter;
         }
 
+        [AllowAnonymous]
         public IActionResult Index()
         {
             var model = new HomePageModel

@@ -12,6 +12,8 @@ using GetStarted.Services;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 using GetStarted.Entities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 namespace GetStarted
 {
@@ -36,15 +38,21 @@ namespace GetStarted
             services.AddMvc();
 
             services.AddEntityFrameworkSqlServer()
-                .AddDbContext<GetStartedDbContext>(options => options.UseSqlServer(Configuration["database:connection"]));
+                .AddDbContext<GetStartedDbContext>(options => options.UseSqlServer(Configuration["mainDatabase:connection"]));
+
+            services.AddEntityFrameworkSqlite()
+                .AddDbContext<GetStartedIdentityDbConxtext>(options => options.UseSqlite(Configuration["identityDatabase:connection"]));
+
+            services.AddIdentity<User, IdentityRole>()
+                .AddEntityFrameworkStores<GetStartedIdentityDbConxtext>();
 
             services.AddSingleton<IConfiguration>(this.Configuration);
             services.AddSingleton<IGreetingService, JsonGreetingService>();
-#pragma warning disable S125 // Sections of code should not be "commented out"
-                            //services.AddScoped<IRestarantRepository, InMemoryRestaurantRepository>();
+
+            //services.AddScoped<IRestarantRepository, InMemoryRestaurantRepository>();
             services.AddScoped<IRestarantRepository, DbRestaurantRepsoitory>();
-#pragma warning restore S125 // Sections of code should not be "commented out"
         }
+
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IGreetingService greetingService)
@@ -59,6 +67,8 @@ namespace GetStarted
             app.UseFileServer();
             //app.UseDefaultFiles();
             //app.UseStaticFiles();
+
+            app.UseIdentity();
 
             app.UseMvc(ConfigureRoutes);
 
