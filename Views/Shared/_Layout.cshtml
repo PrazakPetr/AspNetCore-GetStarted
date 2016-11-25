@@ -9,38 +9,53 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.Title</title>
+    <link href="/node_modules/bootstrap/dist/css/bootstrap.css" rel="stylesheet"/>
 </head>
 <body>
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/">Get Started</a>
+            </div>
+            <div class="navbar navbar-nav navbar-right" >
+                @if (SignInManager.IsSignedIn(User))
+                {
+                    <div>
+                        <form method="post" asp-controller="Account" asp-action="Logout"
+                              class="navbar-form">
+                            @User.Identity.Name
+                            <input type="submit" value="Logout" class="btn btn-danger"/>
+                        </form>
+                    </div>
+                }
+                else
+                {
+                    <a class="btn btn-default btn-xs navbar-btn" asp-controller="Account" asp-action="Login">Login</a>
+                    <a class="btn btn-default btn-xs navbar-btn" asp-controller="Account" asp-action="Register">Register</a>
+                }
+            </div>
+        </div>
+    </nav>
     <div>
         @DateTime.Now.Year
     </div>
     
-    <div>
-        @if (SignInManager.IsSignedIn(User))
-        {
-            <div>
-                <form method="post" asp-controller="Account" asp-action="Logout">
-                    <input type="submit" value="Logout" />
-                </form>
-            </div>
-            <div>
-                Hello: @User.Identity.Name
-            </div>
-
-        }
-        else
-        { 
-            <a asp-controller="Account" asp-action="Login" >Login</a>
-            <a asp-controller="Account" asp-action="Register">Register</a>
-
-        }
-    </div>
-    <div>
+    
+    <div class="container">
         @RenderBody()
+        <footer>
+            @RenderSection("footer", false)
+            @Component.InvokeAsync("Greeting").Result
+        </footer>
     </div>
-    <footer>
-        @RenderSection("footer", false)
-        @Component.InvokeAsync("Greeting").Result
-    </footer>
+    
+
+    <environment name="Development">
+        <script src="/node_modules/jquery/dist/jquery.js"></script>
+        <script src="/node_modules/jquery-validation/dist/jquery.validate.js"></script>
+        <script src="/node_modules/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+    </environment>
+    <e
+
 </body>
 </html>

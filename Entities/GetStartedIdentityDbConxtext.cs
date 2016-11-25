@@ -12,7 +12,6 @@ namespace GetStarted.Entities
         public GetStartedIdentityDbConxtext(DbContextOptions<GetStartedIdentityDbConxtext> options)
             :base(options)
         {
-
         }
     }
 }

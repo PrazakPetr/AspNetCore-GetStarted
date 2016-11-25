@@ -14,6 +14,7 @@ using Microsoft.EntityFrameworkCore;
 using GetStarted.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using GetStarted.Middleware;
 
 namespace GetStarted
 {
@@ -21,10 +22,13 @@ namespace GetStarted
     {
         public IConfiguration Configuration { get; set; }
 
-        public Startup()
+        public Startup(IHostingEnvironment env)
         {
+
+
             var builder = new ConfigurationBuilder()
-                .AddJsonFile(@"C:\MyTutorials\AspNetCore\GetStarted\appsettings.json");
+                .SetBasePath(env.ContentRootPath)
+                .AddJsonFile(@".\appsettings.json");
 
             this.Configuration = builder.Build();
         }
@@ -49,7 +53,7 @@ namespace GetStarted
             services.AddSingleton<IConfiguration>(this.Configuration);
             services.AddSingleton<IGreetingService, JsonGreetingService>();
 
-            //services.AddScoped<IRestarantRepository, InMemoryRestaurantRepository>();
+           // services.AddScoped<IRestarantRepository, InMemoryRestaurantRepository>();
             services.AddScoped<IRestarantRepository, DbRestaurantRepsoitory>();
         }
 
@@ -64,7 +68,11 @@ namespace GetStarted
                 app.UseDeveloperExceptionPage();
             }
 
+            
+
             app.UseFileServer();
+
+            app.UseNodeModules(env);
             //app.UseDefaultFiles();
             //app.UseStaticFiles();
 
